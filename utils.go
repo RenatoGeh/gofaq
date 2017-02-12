@@ -21,6 +21,16 @@ func Pageify(index int) string {
 	return fmt.Sprintf("page/page%d.html", index)
 }
 
+var (
+	// BaseURL is the base URL.
+	BaseURL = ""
+)
+
+// GetURL gets the URL based on the BaseURL path.
+func GetURL(rel string) string {
+	return StringConcat(StringConcat(BaseURL, "/"), rel)
+}
+
 // StringConcat concatenates two strings.
 func StringConcat(s1, s2 string) string {
 	var buffer bytes.Buffer

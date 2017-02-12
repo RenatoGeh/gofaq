@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
 // Faq is a FAQ page.
 type Faq struct {
 	// Title for FAQ.
@@ -39,4 +44,34 @@ func (f *Faq) AddTopic(title, ref, short string, tags []string) *Topic {
 	f.refs[ref] = t
 
 	return t
+}
+
+// This function does the actual ParseRef work.
+func (f *Faq) parseRefsText(text string) string {
+	insts := strings.Split(text, "</topic-ref>")
+
+	var new string
+	for _, token := range insts {
+		tag := "<topic-ref=\""
+		start := strings.Index(text, tag)
+		data := token[start:len(token)]
+		end := strings.Index(data, "\">")
+		ref := data[0:end]
+		data = ""
+		name := token[start+len(tag)+len(ref)+2 : len(token)]
+		link := GetURL(f.refs[ref].page.url)
+		mkdwn := fmt.Sprintf("[%s](%s)", name, link)
+		new = StringConcat(new, StringConcat(token[0:start], mkdwn))
+	}
+
+	return new
+}
+
+// ParseRefs finds all instances of <topic-ref="something">text</topic-ref> and turns them into a
+// Markdown link pointing to the referenced page.
+func (f *Faq) ParseRefs() {
+	for _, t := range f.tops {
+		t.short = f.parseRefsText(t.short)
+		t.page.content = f.parseRefsText(t.page.content)
+	}
 }

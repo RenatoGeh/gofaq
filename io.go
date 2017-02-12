@@ -29,11 +29,14 @@ func Parse(filename string) *Faq {
 	input = ""
 
 	for _, top := range topics {
-		var ref string
-		fmt.Sscanf(top, "<topic ref=\"%s\">", &ref)
-
-		start = strings.Index(top, "\n") + 1
+		ttag := "<topic ref=\""
+		start = strings.Index(top, ttag) + len(ttag)
 		data := top[start:len(top)]
+		end = strings.Index(top, "\">")
+		ref := data[0:end]
+
+		start = strings.Index(data, "\n") + 1
+		data = data[start:len(top)]
 		end = strings.Index(data, "\n")
 		title := data[0:end]
 
@@ -47,8 +50,10 @@ func Parse(filename string) *Faq {
 			content = data[end+6 : ctag]
 			data = data[end+1 : len(data)]
 		}
-		var utags string
-		fmt.Sscanf(data, "<tags=%s>", &utags)
+		start = strings.Index(data, "<tags=")
+		data = data[start+6 : len(data)]
+		end = strings.Index(data, ">")
+		utags := data[0:end]
 		tags := strings.Split(utags, "; ")
 
 		t := faq.AddTopic(title, ref, short, tags)
@@ -56,6 +61,8 @@ func Parse(filename string) *Faq {
 			t.SetPage(content)
 		}
 	}
+
+	faq.ParseRefs()
 
 	return faq
 }
