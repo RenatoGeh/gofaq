@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -19,29 +20,33 @@ type Faq struct {
 	refs map[string]*Topic
 	// Base url.
 	burl string
-	// Tags
+	// Tags.
 	tags map[string][]*Topic
+	// Categories.
+	cats map[string][]*Topic
 }
 
 // NewFaq creates a new FAQ page given a title.
 func NewFaq(title, desc string) *Faq {
-	return &Faq{title, desc, "<br><hr><br>", nil, make(map[string]*Topic), URLize(title), make(map[string][]*Topic)}
+	return &Faq{title, desc, "<br><hr><br>", nil, make(map[string]*Topic), URLize(title),
+		make(map[string][]*Topic), make(map[string][]*Topic)}
 }
 
 // AddTopic adds a new topic to this FAQ and returns it.
-func (f *Faq) AddTopic(title, ref, short string, tags []string) *Topic {
+func (f *Faq) AddTopic(title, ref, category, short string, tags []string) *Topic {
 	id := EncodeURL(title)
 	index := len(f.tops)
-	t := &Topic{title, short, NewPage(title, short, StringConcat(f.burl+"#", id), Pageify(index)), id, index}
+	t := &Topic{title, short, NewPage(title, short, StringConcat(f.burl+"#", id), Pageify(index)),
+		id, index, false, f.burl}
 	f.tops = append(f.tops, t)
 
 	// Add topic tags.
 	for _, s := range tags {
-		l := f.tags[s]
-		l = append(l, t)
+		f.tags[s] = append(f.tags[s], t)
 	}
 
 	f.refs[ref] = t
+	f.cats[category] = append(f.cats[category], t)
 
 	return t
 }
@@ -74,4 +79,36 @@ func (f *Faq) ParseRefs() {
 		t.short = f.parseRefsText(t.short)
 		t.page.content = f.parseRefsText(t.page.content)
 	}
+}
+
+// PrintSep prints the separator tag.
+func (f *Faq) PrintSep(file *os.File) {
+	fmt.Fprintf(file, "%s\n\n", f.sep)
+}
+
+// Print writes all the content from this FAQ to an HTML structure, with the main index file being
+// named filename.
+func (f *Faq) Print(filename string) {
+	index, err := os.Create(filename)
+
+	if err != nil {
+		fmt.Println("Could not create file [%s].\n", filename)
+		panic(err)
+	}
+	defer index.Close()
+
+	// Print header (HTML5).
+	FprintHeader(index, f.title)
+
+	// Print header.
+	fmt.Fprintf(index, "<h1>%s</h1>\n\n", f.title)
+
+	// Print FAQ description.
+	fmt.Fprintf(index, "%s\n\n", Markdown(f.desc))
+
+	f.PrintSep(index)
+
+	// Print alphabetical listing.
+
+	fmt.Fprintf(index, "</body>\n</html>\n")
 }

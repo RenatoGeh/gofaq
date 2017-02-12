@@ -29,34 +29,48 @@ func Parse(filename string) *Faq {
 	input = ""
 
 	for _, top := range topics {
+		// Extract reference tag.
 		ttag := "<topic ref=\""
 		start = strings.Index(top, ttag) + len(ttag)
 		data := top[start:len(top)]
-		end = strings.Index(top, "\">")
+		end = strings.Index(top, "\"")
 		ref := data[0:end]
 
+		// Extract category tag.
+		ttag = "category=\""
+		start = strings.Index(data, ttag)
+		data = data[start+len(ttag) : len(data)]
+		end = strings.Index(top, "\">")
+		category := data[0:end]
+
+		// Extract title (which is always the first line).
 		start = strings.Index(data, "\n") + 1
 		data = data[start:len(top)]
 		end = strings.Index(data, "\n")
-		title := data[0:end]
+		title := strings.TrimSpace(data[0:end])
 
+		// Extract short description.
 		start = end + 1
 		data = data[start:len(data)]
 		end = strings.Index(data, "<page>")
 		short := data[0:end]
+
+		// Extract page contents if it exists.
 		var content string
 		if end >= 0 {
 			ctag := strings.Index(data, "</page>")
 			content = data[end+6 : ctag]
 			data = data[end+1 : len(data)]
 		}
+
+		// Extract tags.
 		start = strings.Index(data, "<tags=")
 		data = data[start+6 : len(data)]
 		end = strings.Index(data, ">")
 		utags := data[0:end]
 		tags := strings.Split(utags, "; ")
 
-		t := faq.AddTopic(title, ref, short, tags)
+		t := faq.AddTopic(title, ref, category, short, tags)
 		if content != "" {
 			t.SetPage(content)
 		}
