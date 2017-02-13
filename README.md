@@ -1,5 +1,9 @@
 # GoFAQ
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/renatogeh/gofaq)](https://goreportcard.com/report/github.com/renatogeh/gofaq)
+[![Build Status](https://travis-ci.org/RenatoGeh/gofaq.svg?branch=master)](https://travis-ci.org/RenatoGeh/gofaq)
+[![GoDoc](https://godoc.org/github.com/RenatoGeh/gofaq?status.svg)](https://godoc.org/github.com/RenatoGeh/gofaq)
+
 Ever wondered how to make a proper FAQ? Well, now you can GoFAQ yourself
 in an easy and satisfying way! Automatically generate all questions,
 answers, their pages, tags and categories from a single `faq-script`,
