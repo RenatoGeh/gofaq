@@ -7,7 +7,7 @@ import (
 )
 
 // Parse takes a faq-script file and stores its information into a Faq.
-func Parse(filename string) *Faq {
+func Parse(filename, index string) *Faq {
 	dat, err := ioutil.ReadFile(filename)
 
 	if err != nil {
@@ -22,30 +22,34 @@ func Parse(filename string) *Faq {
 	end := strings.Index(input, "<topic")
 	desc := input[start+1 : end]
 
-	faq := NewFaq(title, desc)
+	faq := NewFaq(title, desc, index)
 
 	input = input[end:len(input)]
 	topics := strings.Split(input, "</topic>")
 	input = ""
 
 	for _, top := range topics {
+		if strings.TrimSpace(top) == "" {
+			break
+		}
+
 		// Extract reference tag.
 		ttag := "<topic ref=\""
 		start = strings.Index(top, ttag) + len(ttag)
 		data := top[start:len(top)]
-		end = strings.Index(top, "\"")
+		end = strings.Index(data, "\"")
 		ref := data[0:end]
 
 		// Extract category tag.
 		ttag = "category=\""
 		start = strings.Index(data, ttag)
 		data = data[start+len(ttag) : len(data)]
-		end = strings.Index(top, "\">")
+		end = strings.Index(data, "\">")
 		category := data[0:end]
 
 		// Extract title (which is always the first line).
 		start = strings.Index(data, "\n") + 1
-		data = data[start:len(top)]
+		data = data[start:len(data)]
 		end = strings.Index(data, "\n")
 		title := strings.TrimSpace(data[0:end])
 
@@ -53,7 +57,12 @@ func Parse(filename string) *Faq {
 		start = end + 1
 		data = data[start:len(data)]
 		end = strings.Index(data, "<page>")
-		short := data[0:end]
+		var short string
+		if end < 0 {
+			short = data[0:strings.Index(data, "<tags=")]
+		} else {
+			short = data[0:end]
+		}
 
 		// Extract page contents if it exists.
 		var content string
@@ -68,7 +77,7 @@ func Parse(filename string) *Faq {
 		data = data[start+6 : len(data)]
 		end = strings.Index(data, ">")
 		utags := data[0:end]
-		tags := strings.Split(utags, "; ")
+		tags := strings.Split(utags, ";")
 
 		t := faq.AddTopic(title, ref, category, short, tags)
 		if content != "" {

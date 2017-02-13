@@ -23,6 +23,11 @@ func Pageify(index int) string {
 	return fmt.Sprintf("page/page%d.html", index)
 }
 
+// Categorify gives a name "category/title.html", where title is the URL of the category.
+func Categorify(title string) string {
+	return fmt.Sprintf("category/%s.html", EncodeURL(title))
+}
+
 var (
 	// BaseURL is the base URL.
 	BaseURL = ""
@@ -32,6 +37,8 @@ var (
 	Description = ""
 	// Lang is the language.
 	Lang = ""
+	// Footer is a footer.
+	Footer = ""
 )
 
 // GetURL gets the URL based on the BaseURL path.
@@ -49,9 +56,25 @@ func FprintHeader(file *os.File, title string) {
 			"  <title>%s</title>\n"+
 			"  <meta name=\"description\" content=\"%s\">\n"+
 			"  <meta name=\"author\" content=\"%s\">\n"+
+			"  <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">\n"+
+			"  <style>\n"+
+			"    body {\n"+
+			"      font-family: 'Roboto', sans-serif;\n"+
+			"      font-size: 18px\n"+
+			"    }\n"+
+			"  </style>\n"+
 			"</head>\n"+
 			"<body>\n\n",
 		Lang, title, Description, Author)
+}
+
+// FprintFooter prints the footer.
+func FprintFooter(file *os.File) {
+	fmt.Fprintf(file,
+		"%s\n\n"+
+			"</body>\n"+
+			"</html>\n",
+		Footer)
 }
 
 // Markdown uses BlackFriday's markdown renderer to convert markdown to html.

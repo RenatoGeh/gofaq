@@ -41,6 +41,6 @@ func (p *Page) Print() {
 	// Print contents.
 	fmt.Fprintf(out, "%s\n\n", Markdown(p.content))
 
-	// Print back link.
-	fmt.Fprintf(out, "<a href=\"%s\">[back]</a>\n", GetURL(p.burl))
+	// Print index link.
+	fmt.Fprintf(out, "<a href=\"%s\">[index]</a>\n", GetURL(p.burl))
 }
