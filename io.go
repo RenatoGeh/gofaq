@@ -24,7 +24,7 @@ func Parse(filename, index string) *Faq {
 
 	faq := NewFaq(title, desc, index)
 
-	input = input[end:len(input)]
+	input = input[end:]
 	topics := strings.Split(input, "</topic>")
 	input = ""
 
@@ -36,26 +36,26 @@ func Parse(filename, index string) *Faq {
 		// Extract reference tag.
 		ttag := "<topic ref=\""
 		start = strings.Index(top, ttag) + len(ttag)
-		data := top[start:len(top)]
+		data := top[start:]
 		end = strings.Index(data, "\"")
 		ref := data[0:end]
 
 		// Extract category tag.
 		ttag = "category=\""
 		start = strings.Index(data, ttag)
-		data = data[start+len(ttag) : len(data)]
+		data = data[start+len(ttag):]
 		end = strings.Index(data, "\">")
 		category := data[0:end]
 
 		// Extract title (which is always the first line).
 		start = strings.Index(data, "\n") + 1
-		data = data[start:len(data)]
+		data = data[start:]
 		end = strings.Index(data, "\n")
 		title := strings.TrimSpace(data[0:end])
 
 		// Extract short description.
 		start = end + 1
-		data = data[start:len(data)]
+		data = data[start:]
 		end = strings.Index(data, "<page>")
 		var short string
 		if end < 0 {
@@ -69,12 +69,12 @@ func Parse(filename, index string) *Faq {
 		if end >= 0 {
 			ctag := strings.Index(data, "</page>")
 			content = data[end+6 : ctag]
-			data = data[end+1 : len(data)]
+			data = data[end+1:]
 		}
 
 		// Extract tags.
 		start = strings.Index(data, "<tags=")
-		data = data[start+6 : len(data)]
+		data = data[start+6:]
 		end = strings.Index(data, ">")
 		utags := data[0:end]
 		tags := strings.Split(utags, ";")

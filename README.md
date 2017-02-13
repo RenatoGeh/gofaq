@@ -42,7 +42,10 @@ See `main.go` to see how to use the code.
 
 ## Dependencies
 
-GoFAQ uses [BlackFriday's](https://github.com/russross/blackfriday) Markdown renderer.
+GoFAQ uses:
+
+- [BlackFriday's](https://github.com/russross/blackfriday) Markdown renderer.
+- [GoSimple's](https://github.com/gosimple/slug) slugifier.
 
 ## Todo
 

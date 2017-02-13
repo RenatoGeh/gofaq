@@ -75,11 +75,11 @@ func (f *Faq) parseRefsText(text string) string {
 		if start < 0 {
 			continue
 		}
-		data := token[start+len(tag) : len(token)]
+		data := token[start+len(tag):]
 		end := strings.Index(data, "\">")
 		ref := data[0:end]
 		data = ""
-		name := token[start+len(tag)+len(ref)+2 : len(token)]
+		name := token[start+len(tag)+len(ref)+2:]
 		link := GetURL(f.refs[ref].page.url)
 		mkdwn := fmt.Sprintf("[%s](%s)", name, link)
 		new = StringConcat(new, StringConcat(token[0:start], mkdwn))
