@@ -63,6 +63,9 @@ func FprintHeader(file *os.File, title string) {
 			"      font-size: 18px\n"+
 			"    }\n"+
 			"  </style>\n"+
+			"  <script type=\"text/javascript\" async\n"+
+			"    src=\"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML\">\n"+
+			"  </script>\n"+
 			"</head>\n"+
 			"<body>\n\n",
 		Lang, title, Description, Author)
