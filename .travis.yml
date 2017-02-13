@@ -1,0 +1,8 @@
+# Language
+language: go
+
+# Golang version
+go:
+  - tip
+
+script: go build
