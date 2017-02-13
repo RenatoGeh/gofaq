@@ -32,7 +32,7 @@ func (c *Category) Print() {
 
 	FprintHeader(out, c.title)
 
-	fmt.Fprintf(out, "<h1>Category: \"%s\"</h1>\n\n", c.title)
+	fmt.Fprintf(out, "<h1 id=\"top\">Category: \"%s\"</h1>\n\n", c.title)
 
 	fmt.Fprintf(out, "The following topics are under this category:\n\n")
 	fmt.Fprintln(out, "<ol>")

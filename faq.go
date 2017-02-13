@@ -117,7 +117,7 @@ func (f *Faq) Print() {
 	FprintHeader(index, f.title)
 
 	// Print header.
-	fmt.Fprintf(index, "<h1 div=\"top\">%s</h1>\n\n", f.title)
+	fmt.Fprintf(index, "<h1 id=\"intro\">%s</h1>\n\n", f.title)
 
 	// Print FAQ description.
 	fmt.Fprintf(index, "%s\n\n", Markdown(f.desc))
@@ -125,7 +125,7 @@ func (f *Faq) Print() {
 	f.PrintSep(index)
 
 	// Print category list.
-	fmt.Fprintf(index, "<h2>%s</h2>\n\n", "Categories:")
+	fmt.Fprintf(index, "<h2 id=\"categories\">%s</h2>\n\n", "Categories:")
 	fmt.Fprintln(index, "<ul>")
 	// Create category directory.
 	os.Mkdir("category", 0777)
@@ -138,7 +138,7 @@ func (f *Faq) Print() {
 	f.PrintSep(index)
 
 	// Print the main list of topics.
-	fmt.Fprintf(index, "<h2>%s</h2>\n\n", "Frequently Asked Questions:")
+	fmt.Fprintf(index, "<h2 id=\"top\">%s</h2>\n\n", "Frequently Asked Questions:")
 	fmt.Fprintln(index, "<ol>")
 	for _, t := range f.tops {
 		fmt.Fprintf(index, "  <li><a href=\"%s\">%s</a></li>\n", "#"+t.id, t.title)
@@ -157,7 +157,7 @@ func (f *Faq) Print() {
 	f.PrintSep(index)
 
 	// Print list of tags.
-	fmt.Fprintf(index, "<h2>%s</h2>\n\n", "List of Tags:")
+	fmt.Fprintf(index, "<h2 id=\"tags\">%s</h2>\n\n", "List of Tags:")
 	fmt.Fprintf(index, "<ul>")
 	// Create tags directory.
 	os.Mkdir("tags", 0777)
