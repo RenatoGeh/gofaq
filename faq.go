@@ -73,6 +73,7 @@ func (f *Faq) parseRefsText(text string) string {
 		tag := "<topic-ref=\""
 		start := strings.Index(token, tag)
 		if start < 0 {
+			new = StringConcat(new, token)
 			continue
 		}
 		data := token[start+len(tag):]

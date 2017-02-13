@@ -13,13 +13,13 @@ func main() {
 	flag.StringVar(&BaseURL, "url", "", "The base URL to be prepended to all URLs.")
 	flag.StringVar(&Footer, "footer", "", "Optional footer.")
 
-	flag.Parse()
-
 	var input string
 	flag.StringVar(&input, "in", "example.faq", "The faq-script to be parsed.")
 
 	var output string
 	flag.StringVar(&output, "out", "index.html", "The output filename.")
+
+	flag.Parse()
 
 	faq := Parse(input, output)
 	faq.Print()
