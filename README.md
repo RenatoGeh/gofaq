@@ -44,6 +44,13 @@ Usage of ./gofaq:
 
 See `main.go` to see how to use the code.
 
+## Example
+
+See `example.faq` for an example on `faq-script` syntax.
+
+To compile the example, simply run `make`. See Makefile's recipe `test`
+for an example on how to run GoFAQ.
+
 ## Dependencies
 
 GoFAQ uses:
@@ -53,5 +60,4 @@ GoFAQ uses:
 
 ## Todo
 
-- Example for clarity.
 - "Beautify" pages.

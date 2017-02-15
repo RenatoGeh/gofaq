@@ -1,0 +1,90 @@
+Dog FAQ
+
+Hi! This is Dog and this is my Frequently Arff'd Questions page.
+
+Some things I like to do:
+
+- Woof at people
+- Sniff other dogs
+- Eating
+- Shredding other people's belongings with my sharp teeth
+- Working on the \\(\text{P} = \text{NP}\\) conjecture
+
+I like barking at people! So send me an email at
+<span style="unicode-bidi: bidi-override; direction: rtl;">`fra.foow@god`</span> and I'll send you a
+woof back!
+
+<topic ref="name" category="Me">
+What is your name?
+
+My name is dog!
+<tags=dog;me;name>
+</topic>
+
+<topic ref="good-doggo" category="Me">
+Are you a good doggo?
+
+Gee, I really hope so!
+<tags=dog;me;good;doggo>
+</topic>
+
+<topic ref="friends" category="Friends">
+Can I be your friend?
+
+But you already are! Now <topic-ref="you-are-good">tell me I am a good doggo!</topic-ref>!
+<tags=dog;friend>
+</topic>
+
+<topic ref="you-are-good" category="Me">
+You are a good doggo!
+
+![Really?!](http://i.imgur.com/AVPZFOF.jpg "Yay!")
+
+<tags=dog;me;good;doggo>
+</topic>
+
+<topic ref="how-many-friends" category="Friends">
+How many friends do you have?
+
+I like to think everyone is my friend! Even Cat. Although she does not show it I know it. Woof.
+
+<tags=friend;cat>
+</topic>
+
+<topic ref="math" category="Math">
+How to do the maths, Dog?
+
+This is an excuse to show how to use MathJax in a `faq-script`. And since I, Dog, am clever, I will
+also show how to use the page tag.
+
+By the way, you can also use the maths here! For instance, in its own equation block:
+
+$$
+  e^{i\pi} + 1 = 0\text{, Dog's favorite equation!}
+$$
+
+Code blocks work as well!
+
+```
+  for every dog:
+    pat(dog, head)
+    give(dog, snack)
+  end
+```
+
+<page>
+Let \\(G=(V, E)\\) be a graph with vertices \\(V\\) and edges \\(E\\). Let \\(\mathbf{X}\\) be the set of
+variables. We call an independence graph \\(G\\) if there exists a one-to-one and onto relation
+between \\(\mathbf{X}\\) to \\(V\\). That is, for every variable \\(x\in\mathbf{X}\\), there exists one
+and only one \\(v\in V\\). There exists an undirected edge \\(e \in E\\) between two vertices \\(v_1,
+v_2\\) iff, for a pair of variables \\(X_1, X_2 \in \mathbf{X}\\) such that \\(X_1\\) and \\(X_2\\)'s
+bijections are \\(v_1\\) and \\(v_2\\), \\(X_1 \perp X_2\\), where \\(\perp\\) is the independence
+operator.
+
+A minimal independence graph is an independence graph's spanning tree.
+
+Or as I like to call it, the graph containing the minimal trail of all doggo's social network
+cliques! Woof!
+</page>
+<tags=math;dog>
+</topic>
