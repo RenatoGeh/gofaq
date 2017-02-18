@@ -89,12 +89,44 @@ func (f *Faq) parseRefsText(text string) string {
 	return new
 }
 
+func (f *Faq) parseImgsText(text string) string {
+	exists := strings.Index(text, "<limg")
+	if exists < 0 {
+		return text
+	}
+
+	insts := strings.Split(text, "</limg>")
+
+	var new string
+	for _, token := range insts {
+		if strings.TrimSpace(token) == "" {
+			continue
+		}
+		tag := "<limg=\""
+		start := strings.Index(token, tag)
+		if start < 0 {
+			new = StringConcat(new, token)
+			continue
+		}
+		data := token[start+len(tag):]
+		end := strings.Index(data, "\">")
+		ref := data[0:end]
+		data = ""
+		name := token[start+len(tag)+len(ref)+2:]
+		link := GetURL(StringConcat("imgs/", ref))
+		mkdwn := fmt.Sprintf("![img](%s \"%s\")", link, name)
+		new = StringConcat(new, StringConcat(token[0:start], mkdwn))
+	}
+
+	return new
+}
+
 // ParseRefs finds all instances of <topic-ref="something">text</topic-ref> and turns them into a
 // Markdown link pointing to the referenced page.
 func (f *Faq) ParseRefs() {
 	for _, t := range f.tops {
-		t.short = f.parseRefsText(t.short)
-		t.page.content = f.parseRefsText(t.page.content)
+		t.short = f.parseImgsText(f.parseRefsText(t.short))
+		t.page.content = f.parseImgsText(f.parseRefsText(t.page.content))
 	}
 }
 

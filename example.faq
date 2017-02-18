@@ -38,7 +38,13 @@ But you already are! Now <topic-ref="you-are-good">tell me I am a good doggo!</t
 <topic ref="you-are-good" category="Me">
 You are a good doggo!
 
+External image from URL:
+
 ![Really?!](http://i.imgur.com/AVPZFOF.jpg "Yay!")
+
+Using `limg`:
+
+<limg="dog.jpg">This is me!</limg>
 
 <tags=dog;me;good;doggo>
 </topic>
