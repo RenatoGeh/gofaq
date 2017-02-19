@@ -43,4 +43,7 @@ func (p *Page) Print() {
 
 	// Print index link.
 	fmt.Fprintf(out, "<a href=\"%s\">[index]</a>\n", GetURL(p.burl))
+
+	// Print footer.
+	FprintFooter(out)
 }
