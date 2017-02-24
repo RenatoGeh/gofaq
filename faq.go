@@ -28,8 +28,10 @@ type Faq struct {
 
 // NewFaq creates a new FAQ page given a title.
 func NewFaq(title, desc, filename string) *Faq {
-	return &Faq{title, desc, "<br><hr><br>", nil, make(map[string]*Topic), filename,
+	f := &Faq{title, desc, "<br><hr><br>", nil, make(map[string]*Topic), filename,
 		make(map[string][]*Topic), make(map[string]*Category)}
+	f.desc = f.parseTags(f.desc)
+	return f
 }
 
 // AddTopic adds a new topic to this FAQ and returns it.
@@ -121,12 +123,16 @@ func (f *Faq) parseImgsText(text string) string {
 	return new
 }
 
+func (f *Faq) parseTags(t string) string {
+	return f.parseImgsText(f.parseRefsText(t))
+}
+
 // ParseRefs finds all instances of <topic-ref="something">text</topic-ref> and turns them into a
 // Markdown link pointing to the referenced page.
 func (f *Faq) ParseRefs() {
 	for _, t := range f.tops {
-		t.short = f.parseImgsText(f.parseRefsText(t.short))
-		t.page.content = f.parseImgsText(f.parseRefsText(t.page.content))
+		t.short = f.parseTags(t.short)
+		t.page.content = f.parseTags(t.page.content)
 	}
 }
 
